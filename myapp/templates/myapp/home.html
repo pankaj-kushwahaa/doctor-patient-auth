@@ -1,0 +1,38 @@
+{% extends 'accounts/base.html' %}
+{% block title %} Sign Up {% endblock title %}
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <h3>Home Page</h3><hr><br>
+    <div class="col-md-3 offset-md-2">
+      {% if doctors %}
+      <h4>List of Doctors Registered</h4><hr>
+      <table class="table">
+        <thead>
+          <tr><th>S.No</th><th>Username</th></tr>
+        </thead>
+        <tbody>{% for doctor in doctors %}
+          <tr><td>{{forloop.counter}}</td><td>{{doctor.username}}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+      
+    </div>
+    <div class="col-md-3 offset-md-1">
+      {% if patients %}
+      <h4>List of Patients registered</h4><hr>
+      <table class="table">
+        <thead>
+          <tr><th>S.No</th><th>Username</th></tr>
+        </thead>
+        <tbody>{% for doctor in patients %}
+          <tr><td>{{forloop.counter}}</td><td>{{doctor.username}}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

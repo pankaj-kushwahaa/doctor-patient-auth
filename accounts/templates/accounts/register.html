@@ -1,0 +1,172 @@
+{% extends 'accounts/base.html' %}
+{% block title %} Sign Up {% endblock title %}
+{% block content %}
+<div class="container mt-4 mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">{% if form %}
+      <div class="card">
+        <div class="card-body">
+          <h3>Sign Up</h3>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}    
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="{{form.email.id_for_label}}">{{form.email.label}}</label>
+                  <input type="{{form.email.field.widget.input_type}}" name="{{form.email.html_name}}" value="{% if form.email.value == None %}{% else %}{{form.email.value}}{% endif %}" id="{{form.email.id_for_label}}" class="{{form.email.field.widget.attrs.class}} {% if form.email.errors %}is-invalid{% endif %}">
+                  {% if form.email.errors %}
+                  {% for error in form.email.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="{{form.username.id_for_label}}">{{form.username.label}}</label>
+                  <input type="{{form.username.field.widget.input_type}}" name="{{form.username.html_name}}" value="{% if form.username.value == None %}{% else %}{{form.username.value}}{% endif %}" id="{{form.username.id_for_label}}" class="{{form.username.field.widget.attrs.class}} {% if form.username.errors %}is-invalid{% endif %}">
+                  {% if form.username.errors %}
+                  {% for error in form.username.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+                <div class="form-group">
+                  <label for="{{form.first_name.id_for_label}}">{{form.first_name.label}}</label>
+                  <input type="{{form.first_name.field.widget.input_type}}" name="{{form.first_name.html_name}}" value="{% if form.first_name.value == None %}{% else %}{{form.first_name.value}}{% endif %}" id="{{form.first_name.id_for_label}}" class="{{form.first_name.field.widget.attrs.class}} {% if form.first_name.errors %}is-invalid{% endif %}">
+                  {% if form.first_name.errors %}
+                  {% for error in form.first_name.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="{{form.last_name.id_for_label}}">{{form.last_name.label}}</label>
+                  <input type="{{form.last_name.field.widget.input_type}}" name="{{form.last_name.html_name}}" value="{% if form.last_name.value == None %}{% else %}{{form.last_name.value}}{% endif %}" id="{{form.last_name.id_for_label}}" class="{{form.last_name.field.widget.attrs.class}} {% if form.first_name.errors %}is-invalid{% endif %}">
+                  {% if form.last_name.errors %}
+                  {% for error in form.last_name.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+                <div class="form-group">
+                  <label for="{{form.address.id_for_label}}">{{form.address.label}}</label>
+                  <input type="{{form.address.field.widget.input_type}}" name="{{form.address.html_name}}" value="{% if form.address.value == None %}{% else %}{{form.address.value}}{% endif %}" id="{{form.address.id_for_label}}" class="{{form.address.field.widget.attrs.class}} {% if form.address.errors %}is-invalid{% endif %}">
+                  {% if form.address.errors %}
+                  {% for error in form.address.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="{{form.city.id_for_label}}">{{form.city.label}}</label>
+                  <input type="{{form.city.field.widget.input_type}}" name="{{form.city.html_name}}" value="{% if form.city.value == None %}{% else %}{{form.city.value}}{% endif %}" id="{{form.city.id_for_label}}" class="{{form.city.field.widget.attrs.class}} {% if form.city.errors %}is-invalid{% endif %}">
+                  {% if form.city.errors %}
+                  {% for error in form.city.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="{{form.state.id_for_label}}">{{form.state.label}}</label>
+                  <select name="{{form.state.html_name}}" id="{{form.state.id_for_label}}" class="{{form.state.field.widget.attrs.class}} {% if form.state.errors %}is-invalid{% endif %}">
+                  {% for value, option in form.fields.state.choices %}
+                    <option value="{{value}}" {% if form.state.value == value %} selected{% endif %}>{{option }}</option>
+                  {% endfor %}
+                  </select>
+                  {% if form.state.errors %}
+                    {% for error in form.state.errors %}
+                  <small style="color: red;">{{error}}</small>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label for="{{form.pincode.id_for_label}}">{{form.pincode.label}}</label>
+                  <input type="{{form.pincode.field.widget.input_type}}" name="{{form.pincode.html_name}}" value="{% if form.pincode.value == None %}{% else %}{{form.pincode.value}}{% endif %}" id="{{form.pincode.id_for_label}}" class="{{form.pincode.field.widget.attrs.class}} {% if form.pincode.errors %}is-invalid{% endif %}">
+                  {% if form.pincode.errors %}
+                  {% for error in form.pincode.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+                <div class="form-group">
+                  <label for="{{form.profile_pic.id_for_label}}">{{form.profile_pic.label}}</label>
+                  <input type="{{form.profile_pic.field.widget.input_type}}" name="{{form.profile_pic.html_name}}" value="{% if form.profile_pic.value == None %}{% else %}{{form.profile_pic.value}}{% endif %}" id="{{form.profile_pic.id_for_label}}" class="{{form.profile_pic.field.widget.attrs.class}} {% if form.profile_pic.errors %}is-invalid{% endif %}">
+                  {% if form.profile_pic.errors %}
+                  {% for error in form.profile_pic.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="{{form.user_type.id_for_label}}">{{form.user_type.label}}</label>
+                  <select name="{{form.user_type.html_name}}" id="{{form.user_type.id_for_label}}" class="{{form.user_type.field.widget.attrs.class}} {% if form.user_type.errors %}is-invalid{% endif %}">
+                  {% for value, option in form.fields.user_type.choices %}
+                  <option value="{{value}}" {% if form.user_type.value == value %} selected{% endif %}>{{option}}</option>
+                  {% endfor %}
+                  </select>
+                  {% if form.user_type.errors %}
+                    {% for error in form.user_type.errors %}
+                  <small style="color: red;">{{error}}</small>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="{{form.password1.id_for_label}}">{{form.password1.label}}</label>
+                  <input type="{{form.password1.field.widget.input_type}}" name="{{form.password1.html_name}}" value="{% if form.password1.value == None %}{% else %}{{form.password1.value}}{% endif %}" id="{{form.password1.id_for_label}}" class="{{form.password1.field.widget.attrs.class}} {% if form.password1.errors %}is-invalid{% endif %}">
+                  {% if form.password1.errors %}
+                  {% for error in form.password1.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="{{form.password2.id_for_label}}">{{form.password2.label}}</label>
+                  <input type="{{form.password2.field.widget.input_type}}" name="{{form.password2.html_name}}" value="{% if form.password1.value == None %}{% else %}{{form.password2.value}}{% endif %}" id="{{form.password2.id_for_label}}" class="{{form.password2.field.widget.attrs.class}} {% if form.password2.errors %}is-invalid{% endif %}">
+                  {% if form.password2.errors %}
+                  {% for error in form.password2.errors %}
+                  <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <br>
+            <input type="submit" value="Register" class="btn btn-primary">
+          </form>
+        </div>
+      </div>
+    </div>{% endif %}
+  </div>
+</div>
+{% endblock content %}
