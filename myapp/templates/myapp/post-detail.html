@@ -1,0 +1,38 @@
+{% extends 'accounts/base.html' %}{% load static %}
+{% block title %} {{post.title}} {% endblock title %}
+{% block content %}
+<style>
+p {
+  font-size: 20px;
+  line-height: 1.6;
+}
+</style>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 box">
+      <h4>{{post.title}}</h4>
+      <div class="mb-3"> by {{post.user.username}} <strong class="btn btn-sm btn-outline-success" onclick="share()">Share</strong> </div>
+  
+      {% if post.image %}
+      <div class="mt-2 mb-2"><img src="{{post.image.url}}" alt="{{post.title}}" style="width:100%;"></div>
+      {% endif %}
+      <p class="mt-2">{{post.summary}}</p>
+      <p class="mt-2">{{post.content}}</p>
+    </div>
+  </div>
+</div><br><br><br><br>
+<script>
+  shareData = {
+    title: document.querySelector('title').innerText,
+    url: location.href
+  }
+
+  async function share (){
+    try{ 
+      await navigator.share(shareData)  }
+    catch(err){ 
+      console.log(err);
+    }
+  }
+</script>
+{% endblock content %}

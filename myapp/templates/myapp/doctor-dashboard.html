@@ -1,24 +1,13 @@
-{% extends 'accounts/base.html' %}
+{% extends 'myapp/base.html' %}
 {% block title %} Dashboard {% endblock title %}
 {% block content %}{% load static %}
-<div class="container mt-2 mb-2">
-  <div class="row">
-    <h4>Doctor Dashboard</h4><hr>
-    <div class="col-md-3">
-      {% include 'accounts/changepasswordlinks.html' %}
-    </div>
-    <div class="col-md-6">
-      <h4 class="text-center">Details</h4>
-      <table class="table">
-        <tbody>
-          <tr><th>Profile  Picture</th> <td>{% if user.profile_pic %} <img src="{{user.profile_pic.url}}" alt="" class="profile_img">{% else %} <img src="{% static 'accounts/images/default.jpg' %}" alt="" class="profile_img"> {% endif %}</td></tr>
-          <tr><th>Email</th><td>{{request.user.email}}</td></tr>
-          <tr><th>Username</th> <td>{{user.username}}</td></tr>
-          <tr><th>Full Name</th><td> {{user.first_name}} {{user.last_name}}</td></tr>
-          <tr><th>Address</th> <td>{{user.address}}, {{user.city}}, {{user.state}}, {{user.pincode}}</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+<table class="table">
+  <tbody>
+    <tr><th>Profile  Picture</th> <td>{% if user.profile_pic %} <img src="{{user.profile_pic.url}}" alt="" class="profile_img">{% else %} <img src="{% static 'accounts/images/default.jpg' %}" alt="" class="profile_img"> {% endif %}</td></tr>
+    <tr><th>Email</th><td>{{request.user.email}}</td></tr>
+    <tr><th>Username</th> <td>{{user.username}}</td></tr>
+    <tr><th>Full Name</th><td> {{user.first_name}} {{user.last_name}}</td></tr>
+    <tr><th>Address</th> <td>{{user.address}}, {{user.city}}, {{user.state}}, {{user.pincode}}</td></tr>
+  </tbody>
+</table>
 {% endblock content %}

@@ -1,0 +1,126 @@
+{% extends 'accounts/base.html' %}
+{% block title %} Add Post and Category {% endblock title %}
+{% block content %}
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-md-3 offset-md-1">
+      <div class="card">
+        <div class="card-body">
+          <h4>Add Category</h4>
+          <form method="post" action="{% url 'add-category' %}" novalidate>
+            {% csrf_token %}
+            {% if form1.non_field_errors %}
+              {% for error in form1.non_field_errors %}
+                <div class="alert alert-danger">{{error}}</div>
+              {% endfor %}
+            {% endif %}
+            {% for field in form1 %}
+            <div class="form-group">
+              {{field.label_tag}} 
+              {{field}}
+              {% if field.errors %}
+                {% for error in field.errors %}
+                  <small style="color: red;">{{error}}</small>
+                {% endfor %}
+              {% endif %}
+            </div> <br>
+            {% endfor %} 
+            <input type="submit" value="Add" class="btn btn-success">
+          </form>
+        </div>
+      </div>
+      <br>
+      {% if categories %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Category</th><th>Total Posts</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for category in categories  %}
+          <tr>
+            <td>{{category.name}}</td>
+            <td>{{category.posts.all.count}}</td>
+            <td><button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#update-category-{{category.id}}">Update</button>  <button type="button" data-bs-toggle="modal" data-bs-target="#delete-post-{{category.id}}" class="btn btn-sm btn-danger">Delete</button></td>
+            
+            <!--Delete Modal -->
+            <div style="display: none;" class="modal fade" id="delete-post-{{category.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm ?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="alert alert-danger"> <strong>Warning ! This will delete the all posts associated with this category. Still, Do you want to delete this category ?</strong></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="{% url 'delete-category' category.id %}" class="btn btn-danger">Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div> 
+             <!-- Update Modal  -->
+            <div class="modal fade" id="update-category-{{category.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Category</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="{% url 'update-category' %}" method="post" autocomplete="off">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <input type="hidden" name="id" value="{{category.id}}">
+                        <label for="name">Category</label>
+                        <input type="text" name="category" id="name" value="{{category.name}}" class="form-control" pattern="[A-Za-z 0-9]+" required>
+                      </div> <br>
+                      <input type="submit" value="Update" class="btn btn-info">
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+      <br>
+    </div>
+    <div class="col-md-6 offset-md-1">{% if form %}
+      <div class="card">
+        <div class="card-body">
+          <h4>Add Post</h4>
+          <form action="{% url 'add-post' %}" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+              {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">{{error}}</div>
+              {% endfor %}
+            {% endif %}
+            {% for field in form %}
+              <div class="form-group mt-2">
+                {{field.label_tag}} 
+                {{field}}
+                {% if field.errors %}
+                  {% for error in field.errors %}
+                    <small style="color: red;">{{error}}</small>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            {% endfor %} <br>
+            <input type="submit" value="Add" class="btn btn-success">
+          </form>
+        </div>
+      </div>
+    </div>{% endif %}
+  </div>
+</div>
+{% endblock content %}

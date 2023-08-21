@@ -1,0 +1,231 @@
+{% extends 'myapp/base.html' %}
+{% block title %} My Posts {% endblock title %}
+{% block content %}
+<style>
+.tab{
+    width: 100%;
+    overflow: hidden;
+  }
+  .tab button{
+    background-color: #ccc;
+    color: black;
+    width: 200px;
+    height: 45px;
+    border: none;
+    outline: none;
+    padding-inline-start: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 2px black;
+  }
+  .tab button:hover{
+    background-color: rgb(27, 26, 26);
+    color: white;
+  }
+  .tab button.active{
+    background-color: black;
+    color: white;
+  }
+
+  .tabcontent{
+    background-color: white;
+    width: 100%;
+    padding: 12px;
+    line-height: 21px;
+    display: none;
+  }
+  @media(max-width:600px){
+    .tab button{
+      width: 100px;
+    }
+  }
+</style>
+<div class="row">
+  <div class="col-md-10">
+    <div class="box">
+      <div class="row">
+        <div class="col-9">
+          <div class="tab">
+            <button class="tablinks" data-tab="tab1">Published ({{published_count}})</button>
+            <button class="tablinks" data-tab="tab2">Drafts ({{drafted_count}})</button>
+          </div>
+        </div>
+        <div class="col-2 offset-1">
+          <a href="{% url 'add-post' %}" class="btn btn-dark">Add Post</a>
+        </div>
+      </div>
+      <div class="tabcontent mt-2" id="tab1">
+        <table class="table">
+          <thead>
+            <tr><th>S.No</th><th>Image</th> <th>Title</th> <th>Category</th> <th>Action</th></tr>
+          </thead>
+          <tbody>
+            {% if posts %}
+            {% for post in posts %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td> {% if post.image %}<img src="{{post.image.url}}" alt="{{post.title}}" class="show-img">
+              {% endif %}</td>
+              <td>{{post.title|truncatewords:5}}</td>
+              <td>{{post.category}}</td>
+              <td>
+                <a href="{% url 'post-detail' post.id %}">See</a> &nbsp;
+                <a href="{% url 'update-post' post.id %}"><i>Update</i></a> 
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#delete-post-{{post.id}}">Delete</button></td>
+              <!-- Modal -->
+              <div class="modal fade" id="delete-post-{{post.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Do you want to delete ?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a href="{% url 'delete-post' post.id %}" class="btn btn-danger">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+              <div class="modal fade" id="show-post-{{post.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">{{post.title}}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Image <br><img src="{{post.image.url}}" style="width: 100%;"> <br>
+                      Summary <br> {{post.summary}} <br>
+                      Content <br> {{post.content}}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr> <td>No Posts</td> <td></td> <td></td> <td></td> <td></td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tabcontent" id="tab2">
+        <table class="table">
+          <thead>
+            <tr><th>S.No</th><th>Image</th> <th>Title</th> <th>Category</th> <th>Action</th></tr>
+          </thead>
+          <tbody>
+            {% if drafts %}
+            {% for post in drafts %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td> {% if post.image %}<img src="{{post.image.url}}" alt="{{post.title}}" class="show-img">
+              {% endif %}</td>
+              <td>{{post.title|truncatewords:5}}</td>
+              <td>{{post.category}}</td>
+              <td>
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#show-post-{{post.id}}"><i>See</i></button> &nbsp;&nbsp; 
+                <a href="{% url 'update-post' post.id %}"><i>Update</i></a> 
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#delete-post-{{post.id}}">Delete</button></td>
+                <!-- Modal -->
+              <div class="modal fade" id="delete-post-{{post.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Do you want to delete ?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a href="{% url 'delete-post' post.id %}" class="btn btn-danger">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+              <div class="modal fade" id="show-post-{{post.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">{{post.title}}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Image <br><img src="{{post.image.url}}" style="width: 100%;"> <br>
+                      Summary <br> {{post.summary}} <br>
+                      Content <br> {{post.content}}
+                    </div>
+                    <div class="modal-footer">
+                      <a href="{% url 'update-post' post.id %}" class="btn btn-warning">Update</a> 
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr> <td>No Posts</td> <td></td> <td></td> <td></td> <td></td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div> 
+    </div>
+  </div>
+  <div class="col-md-2">
+    {% for category in categories %}
+    <ol class="list-group list-group">
+      <a href="" class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div >{{category.name}}</div>
+        </div>
+        <span class="badge bg-primary rounded-pill">{{category.posts.count}}</span>
+      </a>
+    </ol>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+<div class="text-center mt-5 mb-5">
+  {% if posts.has_previous %}
+  <a href="{% url 'home' %}?page={{posts.previous_page_number}}" class="other-link">Previous Posts</a>
+  {% endif %}
+  {% if posts.has_next %}
+  <a href="{% url 'home' %}?page={{posts.next_page_number}}" class="other-link">More Posts</a>
+  {% endif %}
+</div>
+<br><br><br>
+<script>
+  const tabButtons = document.querySelectorAll('.tablinks');
+ for(let i=0; i<tabButtons.length; i++){
+   tabButtons[i].addEventListener('click', function(){
+     let tabName = this.dataset.tab;
+     let tabContent = document.getElementById(tabName);
+     let allTabContent = document.querySelectorAll('.tabcontent');
+     let allTabButtons = document.querySelectorAll('.tablinks');
+
+     for (let j = 0; j<allTabContent.length; j++)
+     allTabContent[j].style.display = 'none';
+     for (let k = 0; k<allTabButtons.length; k++)
+     allTabButtons[k].classList.remove('active');
+
+     tabContent.style.display = 'block';
+     this.classList.add('active');
+   });
+ }
+
+ tabButtons[0].click();
+</script>
+{% endblock footer %}

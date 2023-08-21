@@ -15,7 +15,7 @@ class RegisterForm(UserCreationForm):
     fields = ['email', 'username', 'first_name', 'last_name', 'profile_pic', 'address','city', 'state', 'pincode', 'user_type', 'password1', 'password2']
     labels = {'profile_pic':"Profile Picture", 'pincode':"Pin Code"}
     widgets = {
-      'email' : forms.EmailInput(attrs={'class':'form-control'}),
+      'email' : forms.EmailInput(attrs={'class':'form-control', "autofocus": ""}),
       'username' : forms.TextInput(attrs={'class':'form-control'}),
       'first_name': forms.TextInput(attrs={'class':'form-control'}),
       'last_name': forms.TextInput(attrs={'class':'form-control'}),
@@ -72,7 +72,7 @@ class ChangeProfileForm(forms.ModelForm):
     fields = ['first_name', 'last_name', 'profile_pic', 'address','city', 'state', 'pincode']
     labels = {'profile_pic':"Profile Picture", 'pincode':"Pin Code"}
     widgets = {
-      'first_name': forms.TextInput(attrs={'class':'form-control'}),
+      'first_name': forms.TextInput(attrs={'class':'form-control', "autofocus": True}),
       'last_name': forms.TextInput(attrs={'class':'form-control'}),
       'profile_pic': forms.FileInput(attrs={'class':'form-control'}),
       'address': forms.TextInput(attrs={'class':'form-control'}),

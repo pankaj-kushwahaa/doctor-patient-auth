@@ -1,8 +1,13 @@
 {% extends 'accounts/base.html' %}
-{% block title %} All Posts {% endblock title %}
+{% block title %} Search for {{query}} {% endblock title %}
 {% block content %}
 <div class="container-fluid mt-3">
   <div class="row">
+    <div class="row">
+      <div class="col-2 offset-3"><h5>Search Result: {{total_result}}</h5></div>
+      <div class="col-md-3"><h4>Search for : {{query}}</h4></div>
+    </div>
+    
     <div class="col-md-2 offset-md-1">{% url 'home' as home %}
       <ol class="list-group list-group">
         <a href="{% url 'home' %}" style="text-decoration: none;" class="list-group-item d-flex justify-content-between align-items-start">
@@ -23,7 +28,7 @@
     </div>
     <div class="col-md-6">
       {% for post in posts %}
-      <div class="card mt-2">
+      <div class="card">
         <div class="card-body">
           <div class="row">
             <div class="col-3">
@@ -62,39 +67,42 @@
 
 {% block footer %}
 <div class="text-center mt-5 mb-5">
+  {% if request.GET.category %}
+    Category is set  {{request.GET.category}}
+  {% endif %} <br>
   {% if posts.has_previous %}
-  <a href="{% url 'home' %}?page={{posts.previous_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}" class="other-link">Previous Posts</a>
+  <a href="{% url 'home' %}?page={{posts.previous_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}&search={{query}}" class="other-link">Previous Posts</a>
   {% endif %}
   {% if posts.has_next %}
-  <a href="{% url 'home' %}?page={{posts.next_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}" class="other-link">More Posts</a>
+  <a href="{% url 'home' %}?page={{posts.next_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}&search={{query}}" class="other-link">More Posts</a>
   {% endif %}
 </div>
 <br><br><br>
 <script>
-    const search = document.getElementById("search");
+  const search = document.getElementById("search");
+
+const form = document.getElementById("form");
+
+form.onsubmit = (event) => {
+  event.preventDefault();
   
-  const form = document.getElementById("form");
-  
-  form.onsubmit = (event) => {
-	  event.preventDefault();
-	  
-	  const small = document.querySelectorAll("small");
-	  for (let i = 0; i < small.length; i++) {
-  		let el = small[i];
-  		el.remove();
-  	}
-	  
-	  const pattern = new RegExp("[A-Za-z0-9]+");
-	  
-	  let searchValidate = pattern.test(search.value);
-	 
-	  if(!searchValidate){
-		  search.insertAdjacentHTML("afterend", '<small style="color:red;">Enter valid text</small>')
-	  }
-	  
-	  if(searchValidate) {
-		  form.submit();
-	  } 
+  const small = document.querySelectorAll("small");
+  for (let i = 0; i < small.length; i++) {
+    let el = small[i];
+    el.remove();
   }
+  
+  const pattern = new RegExp("[A-Za-z0-9]+");
+  
+  let searchValidate = pattern.test(search.value);
+ 
+  if(!searchValidate){
+    search.insertAdjacentHTML("afterend", '<small style="color:red;">Enter valid text</small>')
+  }
+  
+  if(searchValidate) {
+    form.submit();
+  } 
+}
 </script>
 {% endblock footer %}

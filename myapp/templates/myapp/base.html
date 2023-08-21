@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
   <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
   <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}">
   <title>{% block title %} {% endblock title %}</title>
@@ -23,7 +24,7 @@
     </div>
   </div>
   {% if messages %}
-  <div class="container mt-3">
+  <div class="container mt-3 mb-3">
     <div class="row">{% for message in messages %}
       <div class="col-md-6 offset-md-3">
         <div class="alert  alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}} {% endif %}  alert-dismissible fade show" role="alert" id="message-alert">{{message}}
@@ -33,8 +34,40 @@
     </div>
   </div>
   {% endif %}
-  {% block content %} {% endblock content %}
-  {% block footer %} {% endblock footer %}
+  <!-- <div class="container-fluid mt-2">
+    <div class="row">
+      <div class="col-md-2 offset-md-1 search-hidden">
+        <div class="box">
+          <form action="" method="get">
+            <input type="text" name="search" id="" class="form-control">
+            <input type="submit" value="Search" class="btn btn-sm btn-outline-success mt-2">
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6">
+
+      </div>
+      <div class="col-md-2">
+        <div class="box">
+          Categories
+        </div>
+      </div>
+    </div> -->
+    <div class="container">
+      <div class="row">
+        <h4>Doctor Dashboard</h4><hr>
+        <div class="col-md-2" style="border-right: 1px solid rgb(172, 171, 171);">
+          {% include 'accounts/changepasswordlinks.html' %}
+          {% include 'myapp/doctor-header.html' %}
+        </div>
+        <div class="col-md-10">
+          {% block content %}
+            
+          {% endblock content %}
+        </div>
+      </div>
+    </div>
+    {% block footer %} {% endblock footer %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <script src="{% static 'account/js/script.js' %}"></script>
 </body>
