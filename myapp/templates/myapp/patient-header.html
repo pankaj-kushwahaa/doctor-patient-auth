@@ -1,0 +1,3 @@
+{% url 'book-appointments' as book_appointments %} {% url 'patient-appointments' as patient_appointments %}
+<a href="{% url 'book-appointments' %}" class="btn btn-outline-dark {% if request.path == book_appointments %}active{% endif %}">Book Appointment</a> <br><br>
+<a href="{% url 'patient-appointments' %}" class="btn btn-outline-secondary  {% if request.path == patient_appointments %}active{% endif %}">My Appointments</a> <br><br>

@@ -1,0 +1,144 @@
+{% extends 'myapp/base.html' %}
+{% block title %} Appointments {% endblock title %}
+{% block content %}
+<style>
+.tab{
+    width: 100%;
+    overflow: hidden;
+  }
+  .tab button{
+    background-color: #ccc;
+    color: black;
+    width: 200px;
+    height: 45px;
+    border: none;
+    outline: none;
+    padding-inline-start: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 2px black;
+  }
+  .tab button:hover{
+    background-color: rgb(27, 26, 26);
+    color: white;
+  }
+  .tab button.active{
+    background-color: black;
+    color: white;
+  }
+
+  .tabcontent{
+    background-color: white;
+    width: 100%;
+    padding: 12px;
+    line-height: 21px;
+    display: none;
+  }
+  @media(max-width:600px){
+    .tab button{
+      width: 100px;
+    }
+  }
+</style>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="row">
+        <h5>My Appointments</h5>
+        <div class="col-9">
+          <div class="tab">
+            <button class="tablinks" data-tab="tab1">Upcoming ({{upcoming_count}})</button>
+            <button class="tablinks" data-tab="tab2">Old ({{old}})</button>
+          </div>
+        </div>
+      </div>
+      <div class="tabcontent" id="tab1">
+        <table class="table">
+          <thead>
+            <tr><th>S.No</th><th>Doctor Name</th> <th>Start At</th> <th>End At</th> <th>Action</th></tr>
+          </thead>
+          <tbody>
+            {% if upcoming %}
+            {% for post in upcoming %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{post.doctor.first_name}} {{post.doctor.last_name}}</td>
+              <td>{{post.start_time}}</td> 
+              <td>{{post.end_time}}</td>
+              <td><a href="https://calendar.google.com/calendar/u/0/r/month?pli=1" target="_blank" class="btn btn-sm btn-success">View</a></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr> <td>No upcoming</td> <td></td> <td></td> <td></td> <td></td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+        <div class="text-center mt-5 mb-2">
+        {% if upcoming.has_previous %}
+          <a href="{% url 'patient-appointments' %}?page={{upcoming.previous_page_number}}" class="other-link">Previous Posts</a>
+          {% endif %}
+          {% if upcoming.has_next %}
+          <a href="{% url 'patient-appointments' %}?page={{upcoming.next_page_number}}" class="other-link">More Posts</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="tabcontent" id="tab2">
+        <table class="table">
+          <thead>
+            <tr><th>S.No</th><th>Doctor Name</th> <th>Start At</th> <th>End At</th> <th>Action</th></tr>
+          </thead>
+          <tbody>
+            {% if attended %}
+            {% for post in attended %}
+              <tr>
+                <td>{{post.number}}</td>
+                <td>{{post.doctor.first_name}} {{post.doctor.last_name}}</td>
+                <td>{{post.start_time}}</td> 
+                <td>{{post.end_time}}</td>
+                <td><a href="https://calendar.google.com/calendar/u/0/r/month?pli=1" target="_blank" class="btn btn-sm btn-success">View</a></td>
+              </tr>
+            {% endfor %}
+            {% else %}
+              <tr> <td>No Attended</td> <td></td> <td></td> <td></td> <td></td></tr>
+            {% endif %}
+          </tbody>
+        </table>
+        <div class="text-center mt-5 mb-2">
+          {% if attended.has_previous %}
+            <a href="{% url 'patient-appointments' %}?page={{attended.previous_page_number}}" class="other-link">Previous Posts</a>
+            {% endif %}
+            {% if attended.has_next %}
+            <a href="{% url 'patient-appointments' %}?page={{attended.next_page_number}}" class="other-link">More Posts</a>
+          {% endif %}
+        </div>
+      </div> 
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+<br><br><br>
+<script>
+  const tabButtons = document.querySelectorAll('.tablinks');
+ for(let i=0; i<tabButtons.length; i++){
+   tabButtons[i].addEventListener('click', function(){
+     let tabName = this.dataset.tab;
+     let tabContent = document.getElementById(tabName);
+     let allTabContent = document.querySelectorAll('.tabcontent');
+     let allTabButtons = document.querySelectorAll('.tablinks');
+
+     for (let j = 0; j<allTabContent.length; j++)
+     allTabContent[j].style.display = 'none';
+     for (let k = 0; k<allTabButtons.length; k++)
+     allTabButtons[k].classList.remove('active');
+
+     tabContent.style.display = 'block';
+     this.classList.add('active');
+   });
+ }
+
+ tabButtons[0].click();
+</script>
+{% endblock footer %}

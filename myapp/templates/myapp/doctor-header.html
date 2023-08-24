@@ -1,3 +1,4 @@
-{% url 'posts' as posts %} {% url 'all-posts' as all_posts %}
-<a href="{% url 'posts' %}" class="btn btn-outline-primary {% if request.path == posts %}active{% endif %}">My Posts</a> <br><br>
-<a href="{% url 'all-posts' %}" class="btn btn-outline-info  {% if request.path == all_posts %}active{% endif %}">All Posts</a> <br><br>
+{% url 'posts' as posts %} {% url 'all-posts' as all_posts %} {% url 'doctor-appointments' as doctor_appointments %}
+<a href="{% url 'posts' %}" class="btn btn-outline-info {% if request.path == posts %}active{% endif %}">My Posts</a> <br><br>
+<a href="{% url 'all-posts' %}" class="btn btn-outline-primary  {% if request.path == all_posts %}active{% endif %}">All Posts</a> <br><br>
+<a href="{% url 'doctor-appointments' %}" class="btn btn-outline-dark  {% if request.path == doctor_appointments %}active{% endif %}">Appointments</a> <br><br>

@@ -40,3 +40,23 @@ class Post(models.Model):
       return Post.objects.filter(draft=True, user=user).count()
     else:
       return Post.objects.filter(draft=True).count()
+
+
+SPECIALITY = (
+  ('', 'Select Speciality'),
+  ('Dermatologists', 'Dermatologists'),
+  ('Pediatrics', 'Pediatrics'),
+  ('Orthopedics', 'Orthopedics'),
+  ('Cardiologists', 'Cardiologists'),
+  ('Neurologist', 'Neurologist'),
+  ('Hematologists', 'Hematologists')
+)
+
+
+class Appointment(models.Model):
+  speciality = models.CharField(verbose_name="Required Speciality", max_length=100, choices=SPECIALITY)
+  start_time = models.DateTimeField(verbose_name="Appointment Date and Time", blank=True, null=True)
+  end_time = models.DateTimeField(blank=True, null=True)
+  doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctor')
+  patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient') 
+  is_attended = models.BooleanField(default=False)

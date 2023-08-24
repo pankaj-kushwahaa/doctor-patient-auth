@@ -1,6 +1,7 @@
+from dataclasses import field
 from re import A
 from django import forms
-from .models import Category, Post
+from .models import Category, Post, Appointment
 
 
 class CategoryForm(forms.ModelForm):
@@ -28,3 +29,11 @@ class PostForm(forms.ModelForm):
       'draft': forms.CheckboxInput(attrs={'class':'form-check-input', 'style':'cursor:pointer;'})
     }
     
+class AppointmentForm(forms.ModelForm):
+  class Meta:
+    model = Appointment
+    fields = ['speciality', 'start_time']
+    widgets = {
+      'speciality': forms.Select(attrs={'class':'form-select'}),
+      'start_time': forms.DateTimeInput(attrs={'class':'form-control', 'type': 'datetime-local'}),
+    }

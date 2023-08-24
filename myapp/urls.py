@@ -14,4 +14,8 @@ urlpatterns = [
   path('post-detail/<int:post_id>/', views.PostDetail.as_view(), name='post-detail'),
   path('all-posts/', views.AllPostShow.as_view(), name='all-posts'),
   path('search/', views.Search.as_view(), name='search'),
+  path('book-appointments/', views.BookAppointments.as_view(), name='book-appointments'),
+  path('patient-appointments/', views.ShowPatientAppointments.as_view(), name='patient-appointments'),
+  path('doctor-appointments/', views.ShowDoctorAppointments.as_view(), name='doctor-appointments'),
+  # path('')
 ]

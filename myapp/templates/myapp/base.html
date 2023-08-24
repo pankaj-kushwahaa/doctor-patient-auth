@@ -34,31 +34,18 @@
     </div>
   </div>
   {% endif %}
-  <!-- <div class="container-fluid mt-2">
-    <div class="row">
-      <div class="col-md-2 offset-md-1 search-hidden">
-        <div class="box">
-          <form action="" method="get">
-            <input type="text" name="search" id="" class="form-control">
-            <input type="submit" value="Search" class="btn btn-sm btn-outline-success mt-2">
-          </form>
-        </div>
-      </div>
-      <div class="col-md-6">
-
-      </div>
-      <div class="col-md-2">
-        <div class="box">
-          Categories
-        </div>
-      </div>
-    </div> -->
     <div class="container">
       <div class="row">
-        <h4>Doctor Dashboard</h4><hr>
+        <h4>{% if request.user.user_type == 'Doctor' %}
+          Doctor Dashboard {% else %} Patient Dashboard
+        {% endif %}</h4><hr>
         <div class="col-md-2" style="border-right: 1px solid rgb(172, 171, 171);">
           {% include 'accounts/changepasswordlinks.html' %}
-          {% include 'myapp/doctor-header.html' %}
+          {% if request.user.user_type == "Doctor" %}
+            {% include 'myapp/doctor-header.html' %}
+          {% else %}
+            {% include 'myapp/patient-header.html' %}
+          {% endif %}
         </div>
         <div class="col-md-10">
           {% block content %}

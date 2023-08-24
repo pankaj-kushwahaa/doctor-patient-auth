@@ -116,6 +116,14 @@
             {% endif %}
           </tbody>
         </table>
+        <div class="text-center mt-5 mb-2">
+          {% if posts.has_previous %}
+            <a href="{% url 'posts' %}?page={{posts.previous_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}" class="other-link">Previous Posts</a>
+            {% endif %}
+            {% if posts.has_next %}
+            <a href="{% url 'posts' %}?page={{posts.next_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}" class="other-link">More Posts</a>
+          {% endif %}
+        </div>
       </div>
       <div class="tabcontent" id="tab2">
         <table class="table">
@@ -179,13 +187,21 @@
             {% endif %}
           </tbody>
         </table>
+        <div class="text-center mt-5 mb-2">
+          {% if drafts.has_previous %}
+              <a href="{% url 'posts' %}?page={{drafts.previous_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}" class="other-link">Previous Posts</a>
+            {% endif %}
+            {% if drafts.has_next %}
+              <a href="{% url 'posts' %}?page={{drafts.next_page_number}}{% if request.GET.category %}&category={{request.GET.category}}{% endif %}" class="other-link">More Posts</a>
+          {% endif %}
+        </div>
       </div> 
     </div>
   </div>
   <div class="col-md-2">
     {% for category in categories %}
     <ol class="list-group list-group">
-      <a href="" class="list-group-item d-flex justify-content-between align-items-start">
+      <a href="{% url 'posts' %}?category={{category.id}}" class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
           <div >{{category.name}}</div>
         </div>
@@ -198,15 +214,6 @@
 {% endblock content %}
 
 {% block footer %}
-<div class="text-center mt-5 mb-5">
-  {% if posts.has_previous %}
-  <a href="{% url 'home' %}?page={{posts.previous_page_number}}" class="other-link">Previous Posts</a>
-  {% endif %}
-  {% if posts.has_next %}
-  <a href="{% url 'home' %}?page={{posts.next_page_number}}" class="other-link">More Posts</a>
-  {% endif %}
-</div>
-<br><br><br>
 <script>
   const tabButtons = document.querySelectorAll('.tablinks');
  for(let i=0; i<tabButtons.length; i++){
